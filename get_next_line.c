@@ -10,6 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
+	static char	*remainder;
+	char		*buf;
+	char		*newline;
+	int			bites_read;
+	size_t		len;
+	char		*newline;
+
+	newline = strchr(buffer, '\n');
+	while (!newline && (bites_read = read(fd, buf, BUFFER_SIZE)) > 0)
+	{
+		*remainder = *bites_read;
+		remainder++;
+		if (bites_read == 0)
+			break ;
+	}
+	if (newline)
+	{
+		len = newline - buf + 1;
+		line = substr(buffer, 0, len);   // 改行まで含めた部分
+		remainder = strdup(newline + 1); // 改行の次の文字から残り全て
+	}
 }
