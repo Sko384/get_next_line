@@ -10,27 +10,53 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
+
+static char	*read_until_newline(int fd, char *remainder)
+{
+	char	*buffer;
+	ssize_t	read_size;
+
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	read_size = 1;
+	while (!ft_strchr_gnl(remainder, '\n') && read_size > 0)
+	{
+		read_size = read(fd, buffer, BUFFER_SIZE);
+		if (read_size == -1)
+		{
+			free(buffer);
+			free(remainder);
+			return (NULL);
+		}
+		buffer[read_size] = '\0';
+		free(remainder);
+		remainder = ft_strjoin_gnl(remainder, buffer);
+	}
+	free(buffer);
+	return (remainder);
+}
+
+static char	*extract_line(char *remainder)
+{
+}
+
+static char	*trim_line(char *remainder)
+{
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*remainder;
-	char		*buf;
-	char		*newline;
-	int			bites_read;
-	size_t		len;
 	char		*newline;
 
-	newline = strchr(buffer, '\n');
-	while (!newline && (bites_read = read(fd, buf, BUFFER_SIZE)) > 0)
-	{
-		*remainder = *bites_read;
-		remainder++;
-		if (bites_read == 0)
-			break ;
-	}
-	if (newline)
-	{
-		len = newline - buf + 1;
-		line = substr(buffer, 0, len);   // 改行まで含めた部分
-		remainder = strdup(newline + 1); // 改行の次の文字から残り全て
-	}
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	remainder = read_until_newline(fd, remainder);
+	if (!remainder)
+		return (NULL);
+	newline = extract_line(remainder);
+	remainder = trim_line(remainder);
+	return (newline);
 }

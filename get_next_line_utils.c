@@ -10,3 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
+
+static char	*ft_strchr_gnl(const char *str, char ch)
+{
+	int	i;
+
+	i = 0;
+	if (ch == '\0')
+		return (str);
+	while (str[i] != '\0')
+	{
+		if (str[i] == ch)
+			return ((&str[i]));
+		i++;
+	}
+	return (NULL);
+}
+
+static char *ft_strjoin_gnl(char *dest, char *src)
+{
+}
