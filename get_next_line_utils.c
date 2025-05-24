@@ -6,7 +6,7 @@
 /*   By: shmiyosh <shmiyosh@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:33:03 by shmiyosh          #+#    #+#             */
-/*   Updated: 2025/05/16 15:33:04 by shmiyosh         ###   ########.fr       */
+/*   Updated: 2025/05/24 02:42:12 by shmiyosh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,19 @@ static char	*ft_strchr_gnl(const char *str, char ch)
 
 static char *ft_strjoin_gnl(char *dest, char *src)
 {
+	int i;
+	int len;
+
+	i = 0;
+	len = 0;
+	if (!dest)
+		return (src);
+	while(dest[len] != '\0')
+		len++;
+	while (src[i] != '\0')
+	{
+		dest[len + i] = src[i];
+		i++;
+	}
+	return (dest);
 }
