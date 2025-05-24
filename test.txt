@@ -1,0 +1,1 @@
+hello\nworld\nwelcome\n42tokyo

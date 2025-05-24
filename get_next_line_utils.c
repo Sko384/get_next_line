@@ -6,13 +6,13 @@
 /*   By: shmiyosh <shmiyosh@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:33:03 by shmiyosh          #+#    #+#             */
-/*   Updated: 2025/05/24 02:42:12 by shmiyosh         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:01:48 by shmiyosh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static size_t	ft_strlen_gnl(char *str)
+size_t	ft_strlen_gnl(char *str)
 {
 	size_t	i;
 
@@ -22,23 +22,21 @@ static size_t	ft_strlen_gnl(char *str)
 	return (i);
 }
 
-static char	*ft_strchr_gnl(char *str, char ch)
+char	*ft_strchr_gnl(char *str, char ch)
 {
 	size_t	i;
 
 	i = 0;
-	if (ch == '\0')
-		return (str);
-	while (str[i] != '\0')
-	{
-		if (str[i] == ch)
-			return ((&str[i]));
+	if (!str)
+		return(NULL);
+	while (str[i] && str[i] != ch)
 		i++;
-	}
+	if(str[i] == ch)
+		return(&str[i]);
 	return (NULL);
 }
 
-static char	*ft_strjoin_gnl(char *dest, char *src)
+char	*ft_strjoin_gnl(char *dest, char *src)
 {
 	size_t	i;
 	size_t	len;
@@ -57,7 +55,7 @@ static char	*ft_strjoin_gnl(char *dest, char *src)
 	return (dest);
 }
 
-static char	*ft_substr_gnl(char *str, int start, size_t len)
+char	*ft_substr_gnl(char *str, int start, size_t len)
 {
 	size_t	i;
 	size_t	str_len;
@@ -80,7 +78,7 @@ static char	*ft_substr_gnl(char *str, int start, size_t len)
 	return (array);
 }
 
-static char	*ft_strdup_gnl(char *str)
+char	*ft_strdup_gnl(char *str)
 {
 	size_t	i;
 	size_t	len;
