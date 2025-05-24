@@ -28,11 +28,11 @@ char	*ft_strchr_gnl(char *str, char ch)
 
 	i = 0;
 	if (!str)
-		return(NULL);
+		return (NULL);
 	while (str[i] && str[i] != ch)
 		i++;
-	if(str[i] == ch)
-		return(&str[i]);
+	if (str[i] == ch)
+		return (&str[i]);
 	return (NULL);
 }
 
