@@ -12,9 +12,19 @@
 
 #include "get_next_line.h"
 
-static char	*ft_strchr_gnl(const char *str, char ch)
+static size_t	ft_strlen_gnl(char *str)
 {
-	int	i;
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+static char	*ft_strchr_gnl(char *str, char ch)
+{
+	size_t	i;
 
 	i = 0;
 	if (ch == '\0')
@@ -28,16 +38,16 @@ static char	*ft_strchr_gnl(const char *str, char ch)
 	return (NULL);
 }
 
-static char *ft_strjoin_gnl(char *dest, char *src)
+static char	*ft_strjoin_gnl(char *dest, char *src)
 {
-	int i;
-	int len;
+	size_t	i;
+	size_t	len;
 
 	i = 0;
 	len = 0;
 	if (!dest)
 		return (src);
-	while(dest[len] != '\0')
+	while (dest[len] != '\0')
 		len++;
 	while (src[i] != '\0')
 	{
@@ -45,4 +55,47 @@ static char *ft_strjoin_gnl(char *dest, char *src)
 		i++;
 	}
 	return (dest);
+}
+
+static char	*ft_substr_gnl(char *str, int start, size_t len)
+{
+	size_t	i;
+	size_t	str_len;
+	char	*array;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	str_len = ft_strlen_gnl(str);
+	array = malloc(sizeof(char) * (len + 1));
+	if (!array)
+		return (NULL);
+	while (i < len)
+	{
+		array[i] = str[start];
+		i++;
+		start++;
+	}
+	array[i] = '\0';
+	return (array);
+}
+
+static char	*ft_strdup_gnl(char *str)
+{
+	size_t	i;
+	size_t	len;
+	char	*array;
+
+	i = 0;
+	len = ft_strlen_gnl(str);
+	array = malloc(sizeof(char) * (len + 1));
+	if (!array)
+		return (NULL);
+	while (i < len)
+	{
+		array[i] = str[i];
+		i++;
+	}
+	array[i] = '\0';
+	return (array);
 }

@@ -38,14 +38,6 @@ static char	*read_until_newline(int fd, char *remainder)
 	return (remainder);
 }
 
-static char	*extract_line(char *remainder)
-{
-}
-
-static char	*trim_line(char *remainder)
-{
-}
-
 char	*get_next_line(int fd)
 {
 	static char	*remainder;
@@ -56,7 +48,28 @@ char	*get_next_line(int fd)
 	remainder = read_until_newline(fd, remainder);
 	if (!remainder)
 		return (NULL);
-	newline = extract_line(remainder);
-	remainder = trim_line(remainder);
+	newline = ft_substr_gnl(remainder, 0, ft_strlen_gnl(remainder));
+	if (!newline)
+		return (NULL);
+	remainder = ft_strdup_gnl(remainder + 1);
+	if (!remainder)
+		return (NULL);
 	return (newline);
+}
+#include <fcntl.h>
+#include <stdio.h>
+
+int	main(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("test.txt", O_RDONLY);
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
+	return (0);
 }

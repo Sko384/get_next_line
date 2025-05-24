@@ -20,6 +20,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-char	*get_next_line(int fd);
+char			*get_next_line(int fd);
+static size_t	ft_strlen_gnl(char *str);
+static char		*ft_strchr_gnl(const char *str, char ch);
+static char		*ft_strjoin_gnl(char *dest, char *src);
+static char		*ft_substr_gnl(char *str, int start, size_t len);
+static char		*ft_strdup_gnl(char *str);
 
 #endif
