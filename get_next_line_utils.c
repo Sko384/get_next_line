@@ -17,6 +17,8 @@ size_t	ft_strlen_gnl(char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (i);
 	while (str[i])
 		i++;
 	return (i);
@@ -38,21 +40,31 @@ char	*ft_strchr_gnl(char *str, char ch)
 
 char	*ft_strjoin_gnl(char *dest, char *src)
 {
+	char	*array;
 	size_t	i;
-	size_t	len;
+	size_t	dest_len;
+	size_t	src_len;
 
+	dest_len = ft_strlen_gnl(dest);
+	src_len = ft_strlen_gnl(src);
+	array = malloc(sizeof(char) * (dest_len + src_len + 1));
+	if (!array)
+		return (NULL);
 	i = 0;
-	len = 0;
-	if (!dest)
-		return (src);
-	while (dest[len] != '\0')
-		len++;
-	while (src[i] != '\0')
+	while (i < dest_len)
 	{
-		dest[len + i] = src[i];
+		array[i] = dest[i];
 		i++;
 	}
-	return (dest);
+	i = 0;
+	while (i < src_len)
+	{
+		array[dest_len + i] = src[i];
+		i++;
+	}
+	array[dest_len + i] = '\0';
+	free(dest);
+	return (array);
 }
 
 char	*ft_substr_gnl(char *str, int start, size_t len)
@@ -68,6 +80,10 @@ char	*ft_substr_gnl(char *str, int start, size_t len)
 	array = malloc(sizeof(char) * (len + 1));
 	if (!array)
 		return (NULL);
+	if ((size_t)start >= str_len)
+		return (ft_strdup_gnl(""));
+	if (str_len < start + len)
+		len = str_len - start;
 	while (i < len)
 	{
 		array[i] = str[start];
