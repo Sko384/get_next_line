@@ -12,69 +12,39 @@
 
 #include "get_next_line.h"
 
-// static char	*read_until_newline(int fd, char *remainder)
-// {
-// 	char	*buffer;
-// 	ssize_t	read_size;
+static char	*append_and_check(ssize_t read_size, char *buffer, char *remainder)
+{
+	char	*joined;
 
-// 	buffer = malloc(BUFFER_SIZE + 1);
-// 	if (!buffer)
-// 		return (NULL);
-// 	read_size = 1;
-// 	while (!ft_strchr_gnl(remainder, '\n') && read_size > 0)
-// 	{
-// 		read_size = read(fd, buffer, BUFFER_SIZE);
-// 		if (read_size == -1)
-// 		{
-// 			free(buffer);
-// 			free(remainder);
-// 			return (NULL);
-// 		}
-// 		buffer[read_size] = '\0';
-// 		remainder = ft_strjoin_gnl(remainder, buffer);
-// 	}
-// 	free(buffer);
-// 	return (remainder);
-// }
+	if (read_size == -1)
+		return (free(buffer), free(remainder), NULL);
+	buffer[read_size] = '\0';
+	joined = ft_strjoin_gnl(remainder, buffer);
+	free(remainder);
+	if (!joined)
+		return (free(buffer), NULL);
+	return (joined);
+}
 
 static char	*read_until_newline(int fd, char *remainder)
 {
 	char	*buffer;
 	ssize_t	read_size;
-	char	*joined;
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
-	{
-		free(remainder);
-		return (NULL);
-	}
+		return (free(remainder), NULL);
 	read_size = 1;
 	while (!ft_strchr_gnl(remainder, '\n') && read_size > 0)
 	{
 		read_size = read(fd, buffer, BUFFER_SIZE);
-		if (read_size == -1)
-		{
-			free(buffer);
-			free(remainder);
+		remainder = append_and_check(read_size, buffer, remainder);
+		if (!remainder)
 			return (NULL);
-		}
-		buffer[read_size] = '\0';
-		joined = ft_strjoin_gnl(remainder, buffer);
-		if (!joined)
-		{
-			free(buffer);
-			free(remainder);
-			return (NULL);
-		}
-		remainder = joined;
 	}
 	free(buffer);
 	if (!remainder || *remainder == '\0')
-	{
-		free(remainder);
-		return (NULL);
-	}
+		return (free(remainder), NULL);
 	return (remainder);
 }
 
@@ -88,8 +58,8 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	remainder = read_until_newline(fd, remainder);
-	if (!remainder)
-		return (NULL);
+	if (!remainder || *remainder == '\0')
+		return (free(remainder), remainder = NULL, NULL);
 	newline_pos = ft_strchr_gnl(remainder, '\n');
 	if (newline_pos)
 	{

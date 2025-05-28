@@ -63,7 +63,6 @@ char	*ft_strjoin_gnl(char *dest, char *src)
 		i++;
 	}
 	array[dest_len + i] = '\0';
-	free(dest);
 	return (array);
 }
 
